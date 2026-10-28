@@ -1,0 +1,4 @@
+-r requirements.txt
+nbconvert==7.16.6
+ipykernel==7.1.0
+notebook==7.5.1

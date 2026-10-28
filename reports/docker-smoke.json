@@ -1,0 +1,18 @@
+{
+  "health": {
+    "status": "healthy",
+    "model_loaded": true
+  },
+  "prediction": {
+    "class_name": "Iris-setosa",
+    "probabilities": {
+      "Iris-setosa": 1.0,
+      "Iris-versicolor": 0.0,
+      "Iris-virginica": 0.0
+    },
+    "confidence": 1.0,
+    "model_type": "DecisionTreeClassifier"
+  },
+  "invalid_request_status": 422,
+  "openapi": "passed"
+}

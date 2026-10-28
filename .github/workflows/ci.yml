@@ -1,0 +1,45 @@
+name: Notebook, API and Docker CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements-notebook.txt
+      - name: Verify committed model and API
+        run: python -m unittest discover -s tests -v
+      - name: Train and evaluate in Jupyter
+        run: jupyter nbconvert --to notebook --execute --inplace notebooks/01_iris_training.ipynb --ExecutePreprocessor.timeout=180
+      - name: Verify regenerated model and API
+        run: python -m unittest discover -s tests -v
+      - name: Build Docker image
+        run: docker build -t iris-api:ci .
+      - name: Execute Docker API endpoints
+        run: |
+          docker run -d --name iris-api-ci -p 127.0.0.1:8018:8000 iris-api:ci
+          python scripts/smoke_test.py
+      - name: Container logs
+        if: always()
+        run: docker logs iris-api-ci || true
+      - name: Clean up container
+        if: always()
+        run: docker rm -f iris-api-ci || true
+      - name: Upload executed notebook and model evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: iris-model-and-evaluation
+          path: |
+            notebooks/01_iris_training.ipynb
+            models/
+            reports/
