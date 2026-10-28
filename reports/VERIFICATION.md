@@ -9,6 +9,8 @@
 - All five API test groups passed, including confidence scores and invalid inputs.
 - Docker Compose API exposed at `http://127.0.0.1:8020`; smoke evidence in `docker-smoke.json`.
 - Project opened in VS Code; tests were executed through Python tools.
-- GitHub publishing and CI: pending account publication.
+- GitHub repository: https://github.com/Vanshika-0A/iris-decision-tree-mlops
+- GitHub Actions: first run completed successfully, including Jupyter execution, API tests, Docker build and live container endpoint checks.
+- Successful run: https://github.com/Vanshika-0A/iris-decision-tree-mlops/actions/runs/40643502923
 
 Small educational dataset; confidence probabilities are not calibrated real-world certainty.
